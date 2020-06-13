@@ -20,6 +20,7 @@ packages = [
 python = "^3.6 || ^3.7 || ^3.8"
 invoke = "^1.4.1"
 easysnmp = "^0.2.5"
+rq-scheduler = "^0.10.0"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
@@ -29,6 +30,7 @@ pylint = "^2.5.2"
 pylint-django = "^2.0.15"
 pydocstyle = "^5.0.2"
 easysnmp = "^0.2.5"
+rq-scheduler = "^0.10.0"
 
 [tool.black]
 line-length = 120
