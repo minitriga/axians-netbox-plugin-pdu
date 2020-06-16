@@ -1,10 +1,10 @@
 import django_filters
 from django.db.models import Q
 
-from dcim.models import DeviceType, Manufacturer
+from dcim.models import Device, DeviceType, Manufacturer
 from utilities.filters import NameSlugSearchFilterSet
 
-from .models import PDUConfig
+from .models import PDUConfig, PDUStatus
 
 
 class PDUConfigFilter(NameSlugSearchFilterSet):
@@ -34,5 +34,34 @@ class PDUConfigFilter(NameSlugSearchFilterSet):
 
         if not value.strip():
             return queryset
-        qs_filter = Q(id__icontains=value) | Q(device_type__slug__icontains=value) | Q(device_type__manufacturer__slug__icontains=value)
+        qs_filter = (
+            Q(id__icontains=value)
+            | Q(device_type__slug__icontains=value)
+            | Q(device_type__manufacturer__slug__icontains=value)
+        )
+        return queryset.filter(qs_filter)
+
+
+class PDUStatusFilter(NameSlugSearchFilterSet):
+    """Filter PDUStatus instances."""
+
+    q = django_filters.CharFilter(method="search", label="Search",)
+
+    device = django_filters.ModelMultipleChoiceFilter(
+        field_name="device__name",
+        queryset=Device.objects.filter(device_type__poweroutlet_templates__isnull=False).distinct(),
+        to_field_name="name",
+        label="Device",
+    )
+
+    class Meta:
+        model = PDUStatus
+        fields = ["id", "device"]
+
+    def search(self, queryset, name, value):
+        """Perform the filtered search."""
+
+        if not value.strip():
+            return queryset
+        qs_filter = Q(id__icontains=value) | Q(device__name__icontains=value)
         return queryset.filter(qs_filter)
