@@ -2,6 +2,7 @@ __version__ = "0.0.1"
 
 from extras.plugins import PluginConfig
 
+
 class PDUConfig(PluginConfig):
     """Plugin configuration for the axians_netbox_pdu plugin."""
 
@@ -16,4 +17,5 @@ class PDUConfig(PluginConfig):
     default_settings = {}
     caching_config = {}
 
-config = PDUConfig # pylint:disable=invalid-name
+
+config = PDUConfig  # pylint:disable=invalid-name
