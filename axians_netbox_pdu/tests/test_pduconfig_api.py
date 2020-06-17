@@ -110,7 +110,7 @@ class PDUConfigCreateTestCase(TestCase):
         self.client = APIClient()
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token.key}")
 
-        self.base_url_lookup = "plugins-api:axians_netbox_pdu-api:pduconfig"
+        self.base_url_lookup = "plugins-api:axians_netbox_pdu-api:pdustatus"
 
         self.manufacturer = Manufacturer.objects.create(name="Test", slug="test")
         self.device_type = DeviceType.objects.create(slug="test", model="test", manufacturer=self.manufacturer)
@@ -141,3 +141,4 @@ class PDUConfigCreateTestCase(TestCase):
         self.assertEqual(pdu_config.device_type.slug, data["device_type"])
         self.assertEqual(pdu_config.power_usage_oid, data["power_usage_oid"])
         self.assertEqual(pdu_config.power_usage_unit, data["power_usage_unit"])
+

@@ -9,6 +9,7 @@ from dcim.models import Device, DeviceType
 class PDUConfigSerializer(serializers.ModelSerializer):
     """Serializer for the PDUConfig model."""
 
+    # TODO: Add Validation logic if devicetype has power_outlets
     device_type = serializers.SlugRelatedField(
         many=False,
         read_only=False,
@@ -16,7 +17,7 @@ class PDUConfigSerializer(serializers.ModelSerializer):
         slug_field="slug",
         required=True,
         help_text="Netbox DeviceType 'slug' value",
-        validators=[UniqueValidator(queryset=PDUConfig.objects.all())],
+        validators=[UniqueValidator(PDUConfig.objects.all())],
     )
 
     power_usage_oid = serializers.CharField(required=True, help_text="OID string to collect power usage",)
@@ -38,10 +39,15 @@ class PDUConfigSerializer(serializers.ModelSerializer):
 class PDUStatusSerializer(serializers.ModelSerializer):
     """Serializer for the PSUStatus model."""
 
+    def validate(self, data):
+        if data["device"].poweroutlets.count() == 0:
+            raise serializers.ValidationError({"device": "Device does not have any Power Outlets."})
+        return data
+
     device = serializers.PrimaryKeyRelatedField(
         many=False,
         read_only=False,
-        queryset=Device.objects.filter(device_type__poweroutlet_templates__isnull=False).distinct(),
+        queryset=Device.objects.all(),
         validators=[UniqueValidator(queryset=PDUStatus.objects.all())],
         required=True,
         help_text="Netbox Device 'id' value",
@@ -51,8 +57,4 @@ class PDUStatusSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PDUStatus
-        fields = [
-            "id",
-            "device",
-            "power_usage"
-        ]
+        fields = ["id", "device", "power_usage"]
