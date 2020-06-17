@@ -17,14 +17,16 @@ class PDUConfigForm(BootstrapMixin, forms.ModelForm):
         queryset=DeviceType.objects.filter(poweroutlet_templates__isnull=False).distinct(),
         required=True,
         to_field_name="slug",
-        label="Device Type"
+        label="Device Type",
     )
 
     power_usage_oid = forms.CharField(
         required=True, label="Power Usage OID", help_text="OID string to collect power usage"
     )
 
-    power_usage_unit = forms.ChoiceField(choices=BLANK_CHOICE + PDUUnitChoices.CHOICES, required=True, label="Power Usage Unit")
+    power_usage_unit = forms.ChoiceField(
+        choices=BLANK_CHOICE + PDUUnitChoices.CHOICES, required=True, label="Power Usage Unit"
+    )
 
     class Meta:
         model = PDUConfig

@@ -1,7 +1,6 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
-from utilities.views import (BulkDeleteView, BulkImportView, ObjectEditView,
-                             ObjectListView)
+from utilities.views import BulkDeleteView, BulkImportView, ObjectEditView, ObjectListView
 
 from .filters import PDUConfigFilter
 from .forms import PDUConfigCSVForm, PDUConfigFilterForm, PDUConfigForm

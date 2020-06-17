@@ -1,7 +1,6 @@
 from django.urls import path
 
-from .views import (PDUConfigBulkDeleteView, PDUConfigCreateView,
-                    PDUConfigImportView, PDUConfigListView)
+from .views import PDUConfigBulkDeleteView, PDUConfigCreateView, PDUConfigImportView, PDUConfigListView
 
 urlpatterns = [
     path("", PDUConfigListView.as_view(), name="pduconfig_list"),

@@ -5,8 +5,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from axians_netbox_pdu.models import PDUConfig, PDUStatus
-from dcim.models import (Device, DeviceRole, DeviceType, Manufacturer,
-                         PowerOutletTemplate, Site)
+from dcim.models import Device, DeviceRole, DeviceType, Manufacturer, PowerOutletTemplate, Site
 from users.models import Token
 
 
