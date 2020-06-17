@@ -68,6 +68,15 @@ class PDUStatusTestCase(TestCase):
         self.assertIn("power_usage", response.data)
         self.assertEqual(len(response.data), 2, "Only two parameters should be mandatory")
 
+    def test_create_pdustatus_duplicate(self):
+        """Verify that you cannot add two instances."""
+        url = reverse(f"{self.base_url_lookup}-list")
+        power_usage = 1234
+        data = {"device": self.device.pk, "power_usage": power_usage}
+
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_update_pdustatus(self):
         """Verify that an PDUStatus can be updated via this API."""
         url = reverse(f"{self.base_url_lookup}-detail", kwargs={"pk": self.pdustatus.pk})
@@ -110,14 +119,6 @@ class PDUStatusCreateTestCase(TestCase):
 
         self.base_url_lookup = "plugins-api:axians_netbox_pdu-api:pdustatus"
 
-                """Create a superuser and token for API calls."""
-        self.user = User.objects.create(username="testuser", is_superuser=True)
-        self.token = Token.objects.create(user=self.user)
-        self.client = APIClient()
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token.key}")
-
-        self.base_url_lookup = "plugins-api:axians_netbox_pdu-api:pdustatus"
-
         self.site = Site.objects.create(name="Site", slug="site")
         self.role = DeviceRole.objects.create(name="Role", slug="role")
         self.manufacturer = Manufacturer.objects.create(name="Manufacturer", slug="manufacturer")
@@ -132,14 +133,11 @@ class PDUStatusCreateTestCase(TestCase):
             name="Device One", device_role=self.role, device_type=self.device_type, site=self.site,
         )
 
-    def test_create_pduconfig(self):
+    def test_create_pdustatus(self):
         """Verify that an PDUStatus can be created."""
         url = reverse(f"{self.base_url_lookup}-list")
         power_usage = 1234
-        data = {
-            "device": self.device.pk,
-            "power_usage": power_usage
-        }
+        data = {"device": self.device.pk, "power_usage": power_usage}
 
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -152,4 +150,26 @@ class PDUStatusCreateTestCase(TestCase):
         self.assertEqual(pdu_status.device.pk, data["device"])
         self.assertEqual(pdu_status.power_usage, data["power_usage"])
 
-# TODO - Write test case to test create status with device with no outlets or does not exist.
+    def test_create_pdustatus_without_power_outlets(self):
+        """Verify that an PDUStatus can be created."""
+
+        self.device.poweroutlets.all().delete()
+
+        url = reverse(f"{self.base_url_lookup}-list")
+        power_usage = 1234
+        data = {"device": self.device.pk, "power_usage": power_usage}
+
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_pdustatus_without_device(self):
+        """Verify that an PDUStatus can be created."""
+
+        self.device.delete()
+
+        url = reverse(f"{self.base_url_lookup}-list")
+        power_usage = 1234
+        data = {"device": 1, "power_usage": power_usage}
+
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

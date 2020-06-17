@@ -62,6 +62,19 @@ class PDUConfigTestCase(TestCase):
         self.assertIn("power_usage_unit", response.data)
         self.assertEqual(len(response.data), 3, "Only two parameters should be mandatory")
 
+    def test_create_pduconfig_duplicate(self):
+        """Verify that you cannot add two instances."""
+        url = reverse(f"{self.base_url_lookup}-list")
+        power_usage_oid = "1.2.3.4"
+        power_usage_unit = "watts"
+        data = {
+            "device_type": self.device_type.slug,
+            "power_usage_oid": power_usage_oid,
+            "power_usage_unit": power_usage_unit,
+        }
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_update_pduconfig(self):
         """Verify that an PDUConfig can be updated via this API."""
         url = reverse(f"{self.base_url_lookup}-detail", kwargs={"pk": self.pduconfig_1.pk})
@@ -110,7 +123,7 @@ class PDUConfigCreateTestCase(TestCase):
         self.client = APIClient()
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token.key}")
 
-        self.base_url_lookup = "plugins-api:axians_netbox_pdu-api:pdustatus"
+        self.base_url_lookup = "plugins-api:axians_netbox_pdu-api:pduconfig"
 
         self.manufacturer = Manufacturer.objects.create(name="Test", slug="test")
         self.device_type = DeviceType.objects.create(slug="test", model="test", manufacturer=self.manufacturer)
@@ -141,4 +154,3 @@ class PDUConfigCreateTestCase(TestCase):
         self.assertEqual(pdu_config.device_type.slug, data["device_type"])
         self.assertEqual(pdu_config.power_usage_oid, data["power_usage_oid"])
         self.assertEqual(pdu_config.power_usage_unit, data["power_usage_unit"])
-

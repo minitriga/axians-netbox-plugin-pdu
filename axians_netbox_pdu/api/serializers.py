@@ -9,11 +9,15 @@ from dcim.models import Device, DeviceType
 class PDUConfigSerializer(serializers.ModelSerializer):
     """Serializer for the PDUConfig model."""
 
-    # TODO: Add Validation logic if devicetype has power_outlets
+    def validate(self, data):
+        if DeviceType.objects.get(slug=data["device_type"]).poweroutlet_templates.count() == 0:
+            raise serializers.ValidationError({"device_type": "Device Type does not contain any Power Outlets."})
+        return data
+
     device_type = serializers.SlugRelatedField(
         many=False,
         read_only=False,
-        queryset=DeviceType.objects.filter(poweroutlet_templates__isnull=False).distinct(),
+        queryset=DeviceType.objects.all(),
         slug_field="slug",
         required=True,
         help_text="Netbox DeviceType 'slug' value",
@@ -41,7 +45,7 @@ class PDUStatusSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if data["device"].poweroutlets.count() == 0:
-            raise serializers.ValidationError({"device": "Device does not have any Power Outlets."})
+            raise serializers.ValidationError({"device": "Device does not contain any Power Outlets."})
         return data
 
     device = serializers.PrimaryKeyRelatedField(
