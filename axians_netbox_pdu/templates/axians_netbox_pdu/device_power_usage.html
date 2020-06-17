@@ -1,0 +1,27 @@
+{% load humanize %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Power Information</strong>
+    </div>
+    <table class="table table-hover panel-body attr-table">
+        <tbody>
+            <tr>
+                <td>
+                    <span title="">Power Usage</span>
+                </td>
+                <td>
+                    <span>{{ pdustatus.get_power_usage }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Last Updated</span>
+                </td>
+                <td>
+                    <span>{{ pdustatus.updated_at|naturaltime }}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
