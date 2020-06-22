@@ -21,6 +21,21 @@ services:
       - ./netbox_${NETBOX_VER}/configuration.py:/opt/netbox/netbox/netbox/configuration.py
       - ../axians_netbox_pdu:/source/axians_netbox_pdu
     tty: true
+  scheduler:
+      build:
+        context: ../
+        dockerfile: development/Dockerfile
+      image: "axians-netbox-plugin-pdu/netbox:${NETBOX_VER}-py${PYTHON_VER}"
+      command: sh -c "python manage.py pduscheduler"
+      depends_on:
+        - netbox
+      env_file:
+        - ./dev.env
+      volumes:
+        - ./base_configuration.py:/opt/netbox/netbox/netbox/base_configuration.py
+        - ./netbox_${NETBOX_VER}/configuration.py:/opt/netbox/netbox/netbox/configuration.py
+        - ../axians_netbox_pdu:/source/axians_netbox_pdu
+      tty: true
   worker:
     build:
       context: ../
