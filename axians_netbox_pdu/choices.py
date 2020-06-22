@@ -9,5 +9,5 @@ class PDUUnitChoices(ChoiceSet):
 
     CHOICES = (
         (UNIT_WATTS, "Watts"),
-        (UNIT_KILOWATTS, "KiloWatts"),
+        (UNIT_KILOWATTS, "Kilowatts"),
     )
