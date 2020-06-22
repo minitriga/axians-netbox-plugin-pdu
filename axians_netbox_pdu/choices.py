@@ -7,7 +7,9 @@ class PDUUnitChoices(ChoiceSet):
     UNIT_WATTS = "watts"
     UNIT_KILOWATTS = "kilowatts"
 
-    CHOICES = (
+    CHOICES = ((UNIT_WATTS, "Watts"),)
+
+    TEMPLATE_CHOICES = (
         (UNIT_WATTS, "Watts"),
         (UNIT_KILOWATTS, "Kilowatts"),
     )

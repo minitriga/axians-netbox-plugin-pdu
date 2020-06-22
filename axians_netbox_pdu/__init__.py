@@ -15,6 +15,10 @@ class PDUConfig(PluginConfig):
     required_settings = []
     min_version = "2.8.1"
     default_settings = {
+        "schedule": True,
+        "schedule_interval": 60 * 5,
+        "snmp_read": "public",
+        "snmp_write": "private",
         "rack_view_pdu_devices": True,
         "rack_view_usage_summary": True,
         "rack_view_summary_unit": "watts",

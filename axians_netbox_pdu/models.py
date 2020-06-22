@@ -33,16 +33,7 @@ class PDUStatus(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def get_power_usage(self):
-        return f"{self.power_usage} {dict(PDUUnitChoices.CHOICES)[self.device.device_type.pduconfig.power_usage_unit]}"
+        return f"{self.power_usage} {PDUUnitChoices.UNIT_WATTS.capitalize()}"
 
     def get_power_usage_watts(self):
-        if self.device.device_type.pduconfig.power_usage_unit == PDUUnitChoices.UNIT_KILOWATTS:
-            return self.power_usage * 1000
-        else:
-            return self.power_usage
-
-    def get_power_usage_kilowatts(self):
-        if self.device.device_type.pduconfig.power_usage_unit == PDUUnitChoices.UNIT_WATTS:
-            return self.power_usage / 1000
-        else:
-            return self.power_usage
+        return self.power_usage

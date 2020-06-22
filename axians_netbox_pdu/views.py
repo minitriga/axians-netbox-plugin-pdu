@@ -1,4 +1,6 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import View
 
 from utilities.views import BulkDeleteView, BulkImportView, ObjectEditView, ObjectListView
 
@@ -19,7 +21,7 @@ class PDUConfigListView(PermissionRequiredMixin, ObjectListView):
     template_name = "axians_netbox_pdu/pduconfig_list.html"
 
 
-class PDUConfigCreateView(PermissionRequiredMixin, ObjectEditView):
+class PDUConfigCreateView(PermissionRequiredMixin, View):
     """View for creating a new PDUConfig"""
 
     permission_required = "axians_netbox_pdu.add_pduconfig"
@@ -46,3 +48,14 @@ class PDUConfigBulkDeleteView(PermissionRequiredMixin, BulkDeleteView):
     queryset = PDUConfig.objects.filter()
     table = PDUConfigTable
     default_return_url = "plugins:axians_netbox_pdu:pduconfig_list"
+
+
+class PDUConfigView(PermissionRequiredMixin, View):
+    """View for PDUConfig"""
+
+    permission_required = "axians_netbox_pdu.view_pduconfig"
+
+    def get(self, request, pk):
+        pdu_config = get_object_or_404(PDUConfig.objects.filter(pk=pk))
+        return render(request, "axians_netbox_pdu/pduconfig_view.html")
+

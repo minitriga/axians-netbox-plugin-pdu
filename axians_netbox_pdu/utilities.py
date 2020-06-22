@@ -33,7 +33,7 @@ def get_rack_power_utilization(rack):
         total_power_usage_percentage = int(total_power_usage / total_available_power * 100) or 0
 
     # Determine if we are using watts or kilowatts
-    if config_unit in dict(PDUUnitChoices.CHOICES):
+    if config_unit in dict(PDUUnitChoices.TEMPLATE_CHOICES):
         if config_unit == PDUUnitChoices.UNIT_KILOWATTS:
             # if we are using kilowats do the math
             total_available_power = total_available_power / 1000

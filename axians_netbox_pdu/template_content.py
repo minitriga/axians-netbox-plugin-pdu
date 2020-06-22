@@ -10,7 +10,7 @@ class DevicePDUStatus(PluginTemplateExtension):
 
     def left_page(self):
         device = self.context["object"]
-        print("test")
+
         try:
             return self.render(
                 "axians_netbox_pdu/device_power_usage.html", extra_context={"pdustatus": device.pdustatus}
@@ -26,7 +26,7 @@ class RackPDUStatus(PluginTemplateExtension):
         rack = self.context["object"]
 
         pdus = rack.devices.filter(rack=rack).exclude(pdustatus=None)
-        print(pdus)
+
         if pdus:
             (
                 total_available_power,
@@ -35,7 +35,7 @@ class RackPDUStatus(PluginTemplateExtension):
                 total_power_usage_unit,
             ) = get_rack_power_utilization(rack)
             ## fix issues with device not habing available power
-            print(total_available_power, total_power_usage, total_power_usage_unit, total_power_usage_percentage)
+
             return self.render(
                 "axians_netbox_pdu/rack_power_usage.html",
                 extra_context={
