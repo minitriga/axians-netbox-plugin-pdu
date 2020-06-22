@@ -14,7 +14,11 @@ class PDUConfig(PluginConfig):
     base_url = "pdu"
     required_settings = []
     min_version = "2.8.1"
-    default_settings = {}
+    default_settings = {
+        "rack_view_pdu_devices": True,
+        "rack_view_usage_summary": True,
+        "rack_view_summary_unit": "watts",
+    }
     caching_config = {}
 
 
