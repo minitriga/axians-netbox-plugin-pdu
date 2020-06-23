@@ -7,18 +7,23 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('dcim', '0106_role_default_color'),
-        ('axians_netbox_pdu', '0001_initial'),
+        ("dcim", "0106_role_default_color"),
+        ("axians_netbox_pdu", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='PDUStatus',
+            name="PDUStatus",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False)),
-                ('power_usage', models.PositiveSmallIntegerField(blank=True, null=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('device', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='dcim.Device')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False)),
+                ("power_usage", models.PositiveSmallIntegerField(blank=True, null=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "device",
+                    models.OneToOneField(
+                        blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to="dcim.Device"
+                    ),
+                ),
             ],
         ),
     ]

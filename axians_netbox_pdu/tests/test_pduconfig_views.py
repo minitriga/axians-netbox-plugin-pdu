@@ -112,6 +112,82 @@ class PDUConfigCreateViewTestCase(TestCase):
         self.assertEqual(PDUConfig.objects.count(), 1)
 
 
+class PDUConfigEditViewTestCase(TestCase):
+    """Test the PDUConfigEditView view."""
+
+    def setUp(self):
+        """Create a user and baseline data for testing."""
+        self.user = User.objects.create(username="testuser")
+        self.client = Client()
+        self.client.force_login(self.user)
+
+        self.manufacturer = Manufacturer.objects.create(name="Test", slug="test")
+        self.device_type = DeviceType.objects.create(slug="test", model="test", manufacturer=self.manufacturer)
+        self.outlets = PowerOutletTemplate.objects.create(device_type=self.device_type, name="1")
+        self.pduconfig = PDUConfig.objects.create(
+            device_type=self.device_type, power_usage_oid="1.2.3.4", power_usage_unit="watts"
+        )
+
+        self.url = reverse("plugins:axians_netbox_pdu:pduconfig_edit", kwargs={"pk": self.pduconfig.pk})
+
+    @override_settings(EXEMPT_VIEW_PERMISSIONS=["*"])
+    def test_get_edit_anonymous(self):
+        """Verify that the view cannot be accessed by anonymous users even if permissions are exempted."""
+        self.client.logout()
+        response = self.client.get(self.url)
+        # Redirected to the login page
+        self.assertEqual(response.status_code, 302)
+
+    @override_settings(EXEMPT_VIEW_PERMISSIONS=[])
+    def test_edit_get(self):
+        """Verify that the view can be seen by a user with appropriate permissions."""
+        # Attempt to access without permissions
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 403)
+
+        # Add permission
+        self.user.user_permissions.add(
+            Permission.objects.get(content_type__app_label="axians_netbox_pdu", codename="change_pduconfig")
+        )
+
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "axians_netbox_pdu/pduconfig_edit.html")
+
+    @override_settings(EXEMPT_VIEW_PERMISSIONS=["*"])
+    def test_post_edit_anonymous(self):
+        """Verify that the view cannot be accessed by anonymous users even if permissions are exempted."""
+        self.client.logout()
+        response = self.client.get(self.url)
+        # Redirected to the login page
+        self.assertEqual(response.status_code, 302)
+
+    @override_settings(EXEMPT_VIEW_PERMISSIONS=[])
+    def test_edit_post(self):
+        """Verify that the view can be used by a user with appropriate permissions."""
+        # Attempt to access without permissions
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 403)
+
+        # Add permission
+        self.user.user_permissions.add(
+            Permission.objects.get(content_type__app_label="axians_netbox_pdu", codename="change_pduconfig")
+        )
+
+        self.device_type_1 = DeviceType.objects.create(slug="test1", model="test1", manufacturer=self.manufacturer)
+        self.outlets_1 = PowerOutletTemplate.objects.create(device_type=self.device_type_1, name="1")
+
+        response = self.client.post(
+            self.url,
+            data={"device_type": self.device_type_1.slug, "power_usage_oid": "5.5.5.5", "power_usage_unit": "watts"},
+        )
+
+        self.pduconfig.refresh_from_db()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(PDUConfig.objects.count(), 1)
+        self.assertEqual(self.pduconfig.power_usage_oid, "5.5.5.5")
+
+
 class PDUConfigBulkDeleteViewTestCase(TestCase):
     """Test the PDUConfigBulkDeleteView view."""
 
@@ -204,7 +280,7 @@ class PDUConfigFeedBulkImportViewTestCase(TestCase):
     @override_settings(EXEMPT_VIEW_PERMISSIONS=[])
     def test_post(self):
         """Verify that tasks can be bulk-imported."""
-        csv_data = ["device_type,power_usage_oid,power_usage_unit", "test,0.1.2.3,watts", "test1,1.2.3.4,kilowatts"]
+        csv_data = ["device_type,power_usage_oid,power_usage_unit", "test,0.1.2.3,watts", "test1,1.2.3.4,watts"]
 
         # Attempt to access without permissions
         response = self.client.post(self.url, data={"csv": "\n".join(csv_data)})

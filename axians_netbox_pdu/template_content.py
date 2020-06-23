@@ -50,4 +50,18 @@ class RackPDUStatus(PluginTemplateExtension):
             return ""
 
 
-template_extensions = [DevicePDUStatus, RackPDUStatus]
+class DeviceTypePDUConfig(PluginTemplateExtension):
+    model = "dcim.devicetype"
+
+    def right_page(self):
+        device_type = self.context["object"]
+
+        try:
+            return self.render(
+                "axians_netbox_pdu/device_type_pduconfig.html", extra_context={"pduconfig": device_type.pduconfig}
+            )
+        except ObjectDoesNotExist:
+            return ""
+
+
+template_extensions = [DevicePDUStatus, RackPDUStatus, DeviceTypePDUConfig]

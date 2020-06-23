@@ -30,7 +30,7 @@ class PDUConfigTestCase(TestCase):
             device_type=self.device_type, power_usage_oid="1.1.1.1", power_usage_unit="watts"
         )
         self.pduconfig_2 = PDUConfig.objects.create(
-            device_type=self.device_type_1, power_usage_oid="0.1.2.3", power_usage_unit="kilowatts"
+            device_type=self.device_type_1, power_usage_oid="0.1.2.3", power_usage_unit="watts"
         )
 
     def test_list_pduconfig(self):
@@ -81,14 +81,14 @@ class PDUConfigTestCase(TestCase):
 
         response = self.client.patch(
             url,
-            {"device_type": self.device_type.slug, "power_usage_oid": "9.9.9.9", "power_usage_unit": "kilowatts"},
+            {"device_type": self.device_type.slug, "power_usage_oid": "9.9.9.9", "power_usage_unit": "watts"},
             format="json",
         )
         pdu_config = PDUConfig.objects.get(pk=self.pduconfig_1.pk)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(self.pduconfig_1.device_type.slug, self.device_type.slug)
         self.assertEqual(PDUConfig.objects.get(pk=self.pduconfig_1.pk).power_usage_oid, "9.9.9.9")
-        self.assertEqual(PDUConfig.objects.get(pk=self.pduconfig_1.pk).power_usage_unit, "kilowatts")
+        self.assertEqual(PDUConfig.objects.get(pk=self.pduconfig_1.pk).power_usage_unit, "watts")
 
         url = reverse(f"{self.base_url_lookup}-detail", kwargs={"pk": self.pduconfig_2.pk})
 
