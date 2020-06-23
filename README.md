@@ -5,6 +5,11 @@ A plugin for [Netbox](https://github.com/netbox-community/netbox) to get power d
 `axians-netbox-plugin-pdu` is using [Easy SNMP](https://easysnmp.readthedocs.io/en/latest/), [Django-RQ](https://github.com/rq/django-rq) and [RQ-Scheduler](https://github.com/rq/rq-scheduler) to display PDU information within Netbox.
 
 ## Installation
+The plugin is available as a Python package in pypi and can be installed with pip
+
+```
+pip install axians-netbox-plugin-pdu
+```
 
 > The plugin is compatible with NetBox 2.8.1 and higher
 
