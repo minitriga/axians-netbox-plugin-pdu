@@ -21,12 +21,12 @@ class PDUConfigListView(PermissionRequiredMixin, ObjectListView):
     template_name = "axians_netbox_pdu/pduconfig_list.html"
 
 
-class PDUConfigCreateView(PermissionRequiredMixin, View):
+class PDUConfigCreateView(PermissionRequiredMixin, ObjectEditView):
     """View for creating a new PDUConfig"""
 
     permission_required = "axians_netbox_pdu.add_pduconfig"
     model = PDUConfig
-    queryset = PDUConfig.objects.all()
+    # queryset = PDUConfig.objects.all()
     model_form = PDUConfigForm
     template_name = "axians_netbox_pdu/pduconfig_edit.html"
     default_return_url = "plugins:axians_netbox_pdu:pduconfig_list"
@@ -50,12 +50,5 @@ class PDUConfigBulkDeleteView(PermissionRequiredMixin, BulkDeleteView):
     default_return_url = "plugins:axians_netbox_pdu:pduconfig_list"
 
 
-class PDUConfigView(PermissionRequiredMixin, View):
-    """View for PDUConfig"""
-
-    permission_required = "axians_netbox_pdu.view_pduconfig"
-
-    def get(self, request, pk):
-        pdu_config = get_object_or_404(PDUConfig.objects.filter(pk=pk))
-        return render(request, "axians_netbox_pdu/pduconfig_view.html")
-
+class PDUConfigEditView(PDUConfigCreateView):
+    permission_required = "axians_netbox_pdu.change_pduconfig"

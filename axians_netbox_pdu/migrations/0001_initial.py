@@ -9,17 +9,22 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('dcim', '0106_role_default_color'),
+        ("dcim", "0106_role_default_color"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='PDUConfig',
+            name="PDUConfig",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False)),
-                ('power_usage_oid', models.CharField(blank=True, max_length=255, null=True)),
-                ('power_usage_unit', models.CharField(max_length=255)),
-                ('device_type', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='dcim.DeviceType')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False)),
+                ("power_usage_oid", models.CharField(blank=True, max_length=255, null=True)),
+                ("power_usage_unit", models.CharField(max_length=255)),
+                (
+                    "device_type",
+                    models.OneToOneField(
+                        blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to="dcim.DeviceType"
+                    ),
+                ),
             ],
         ),
     ]
