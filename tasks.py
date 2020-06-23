@@ -28,6 +28,7 @@ def build(context, netbox_ver=NETBOX_VER, python_ver=PYTHON_VER):
         env={"NETBOX_VER": netbox_ver, "PYTHON_VER": python_ver},
     )
 
+
 # ------------------------------------------------------------------------------
 # START / STOP / DEBUG
 # ------------------------------------------------------------------------------
@@ -60,6 +61,7 @@ def start(context, netbox_ver=NETBOX_VER, python_ver=PYTHON_VER):
         env={"NETBOX_VER": netbox_ver, "PYTHON_VER": python_ver},
     )
 
+
 @task
 def stop(context, netbox_ver=NETBOX_VER, python_ver=PYTHON_VER):
     """Stop NetBox and its dependencies.
@@ -74,6 +76,7 @@ def stop(context, netbox_ver=NETBOX_VER, python_ver=PYTHON_VER):
         env={"NETBOX_VER": netbox_ver, "PYTHON_VER": python_ver},
     )
 
+
 @task
 def destroy(context, netbox_ver=NETBOX_VER, python_ver=PYTHON_VER):
     """Destroy all containers and volumes.
@@ -87,9 +90,9 @@ def destroy(context, netbox_ver=NETBOX_VER, python_ver=PYTHON_VER):
         env={"NETBOX_VER": netbox_ver, "PYTHON_VER": python_ver},
     )
     context.run(
-        f"docker volume rm -f {BUILD_NAME}_pgdata_netbox_onboarding",
-        env={"NETBOX_VER": netbox_ver, "PYTHON_VER": python_ver},
+        f"docker volume rm -f {BUILD_NAME}_pgdata_netbox_pdu", env={"NETBOX_VER": netbox_ver, "PYTHON_VER": python_ver},
     )
+
 
 # ------------------------------------------------------------------------------
 # ACTIONS
@@ -107,6 +110,7 @@ def nbshell(context, netbox_ver=NETBOX_VER, python_ver=PYTHON_VER):
         env={"NETBOX_VER": netbox_ver, "PYTHON_VER": python_ver},
         pty=True,
     )
+
 
 @task
 def cli(context, netbox_ver=NETBOX_VER, python_ver=PYTHON_VER):
@@ -183,7 +187,7 @@ def unittest(context, netbox_ver=NETBOX_VER, python_ver=PYTHON_VER):
     """
     docker = f"docker-compose -f {COMPOSE_FILE} -p {BUILD_NAME} run --rm netbox"
     context.run(
-        f'{docker} sh -c "python manage.py test netbox_onboarding"',
+        f'{docker} sh -c "python manage.py test netbox_pdu"',
         env={"NETBOX_VER": netbox_ver, "PYTHON_VER": python_ver},
         pty=True,
     )
