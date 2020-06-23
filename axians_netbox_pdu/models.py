@@ -19,7 +19,7 @@ class PDUConfig(models.Model):
     csv_headers = ["device_type", "power_usage_oid", "power_usage_unit"]
 
     def __str__(self):
-        """String representation of an OnboardingTask."""
+        """String representation of an PDUConfig."""
         return f"{self.device_type}"
 
 

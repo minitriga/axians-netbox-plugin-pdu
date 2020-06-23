@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "axians-netbox-plugin-pdu"
-version = "0.0.1"
+version = "0.0.2"
 description = "A plugin for NetBox to easily display PDU information."
 authors = ["Alexander Gittings <alexander.gittings@axians.co.uk>"]
 license = "Apache-2.0"
