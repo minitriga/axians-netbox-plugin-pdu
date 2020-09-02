@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "axians-netbox-plugin-pdu"
-version = "0.0.2"
+version = "0.0.3"
 description = "A plugin for NetBox to easily display PDU information."
 authors = ["Alexander Gittings <alexander.gittings@axians.co.uk>"]
 license = "Apache-2.0"
 readme = "README.md"
 homepage = "https://github.com/minitriga/axians-netbox-plugin-pdu"
 repository = "https://github.com/minitriga/axians-netbox-plugin-pdu"
-keywords = ["netbox", "network", "pdu", "django"]
+keywords = ["netbox", "network", "pdu", "django", "apc"]
 include = [
     "LICENSE",
     "README.md"
