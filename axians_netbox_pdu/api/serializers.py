@@ -10,7 +10,7 @@ class PDUConfigSerializer(serializers.ModelSerializer):
     """Serializer for the PDUConfig model."""
 
     def validate(self, data):
-        if DeviceType.objects.get(slug=data["device_type"]).poweroutlet_templates.count() == 0:
+        if DeviceType.objects.get(slug=data["device_type"]).poweroutlettemplates.count() == 0:
             raise serializers.ValidationError({"device_type": "Device Type does not contain any Power Outlets."})
         return data
 

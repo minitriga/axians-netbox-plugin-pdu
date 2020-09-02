@@ -14,7 +14,7 @@ class PDUConfigForm(BootstrapMixin, forms.ModelForm):
     """Form for creating a new PDUConfig"""
 
     device_type = forms.ModelChoiceField(
-        queryset=DeviceType.objects.filter(poweroutlet_templates__isnull=False).distinct(),
+        queryset=DeviceType.objects.filter(poweroutlettemplates__isnull=False).distinct(),
         required=True,
         to_field_name="slug",
         label="Device Type",
@@ -38,13 +38,13 @@ class PDUConfigFilterForm(BootstrapMixin, forms.ModelForm):
     """Form for siltering PDUConfig instances."""
 
     device_type = forms.ModelChoiceField(
-        queryset=DeviceType.objects.filter(poweroutlet_templates__isnull=False).distinct(),
+        queryset=DeviceType.objects.filter(poweroutlettemplates__isnull=False).distinct(),
         required=False,
         to_field_name="slug",
     )
 
     manufacturer = forms.ModelChoiceField(
-        queryset=Manufacturer.objects.filter(device_types__poweroutlet_templates__isnull=False).distinct(),
+        queryset=Manufacturer.objects.filter(device_types__poweroutlettemplates__isnull=False).distinct(),
         required=False,
         to_field_name="slug",
     )
@@ -60,7 +60,7 @@ class PDUConfigCSVForm(CustomFieldModelCSVForm):
     """Form for entering CSV to bulk-import PDUConfig entries."""
 
     device_type = forms.ModelChoiceField(
-        queryset=DeviceType.objects.filter(poweroutlet_templates__isnull=False).distinct(),
+        queryset=DeviceType.objects.filter(poweroutlettemplates__isnull=False).distinct(),
         required=True,
         to_field_name="slug",
         help_text="slug of device type",

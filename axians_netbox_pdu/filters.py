@@ -14,13 +14,13 @@ class PDUConfigFilter(NameSlugSearchFilterSet):
 
     manufacturer = django_filters.ModelMultipleChoiceFilter(
         field_name="device_type__manufacturer__slug",
-        queryset=Manufacturer.objects.filter(device_types__poweroutlet_templates__isnull=False).distinct(),
+        queryset=Manufacturer.objects.filter(device_types__poweroutlettemplates__isnull=False).distinct(),
         to_field_name="slug",
         label="Manufacturer",
     )
     device_type = django_filters.ModelMultipleChoiceFilter(
         field_name="device_type__slug",
-        queryset=DeviceType.objects.filter(poweroutlet_templates__isnull=False).distinct(),
+        queryset=DeviceType.objects.filter(poweroutlettemplates__isnull=False).distinct(),
         to_field_name="slug",
         label="Device Type",
     )
@@ -49,7 +49,7 @@ class PDUStatusFilter(NameSlugSearchFilterSet):
 
     device = django_filters.ModelMultipleChoiceFilter(
         field_name="device__name",
-        queryset=Device.objects.filter(device_type__poweroutlet_templates__isnull=False).distinct(),
+        queryset=Device.objects.filter(device_type__poweroutlettemplates__isnull=False).distinct(),
         to_field_name="name",
         label="Device",
     )
