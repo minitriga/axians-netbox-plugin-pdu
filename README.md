@@ -11,7 +11,7 @@ The plugin is available as a Python package in pypi and can be installed with pi
 pip install axians-netbox-plugin-pdu
 ```
 
-> The plugin is compatible with NetBox 2.8.1 and higher
+> The plugin is compatible with NetBox 2.9.1 and higher
 
 Once installed, the plugin needs to be enabled in your `configuration.py`
 
