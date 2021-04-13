@@ -10,14 +10,14 @@ menu_items = (
             PluginMenuButton(
                 link="plugins:axians_netbox_pdu:pduconfig_add",
                 title="Add",
-                icon_class="fa fa-plus",
+                icon_class="mdi mdi-plus-thick",
                 color=ButtonColorChoices.GREEN,
                 permissions=["axians_netbox_pdu.add_pduconfig"],
             ),
             PluginMenuButton(
                 link="plugins:axians_netbox_pdu:pduconfig_import",
                 title="Bulk Add",
-                icon_class="fa fa-download",
+                icon_class="mdi mdi-database-import-outline",
                 color=ButtonColorChoices.BLUE,
                 permissions=["axians_netbox_pdu.add_pduconfig"],
             ),
