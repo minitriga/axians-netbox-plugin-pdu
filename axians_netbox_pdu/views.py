@@ -26,7 +26,7 @@ class PDUConfigCreateView(PermissionRequiredMixin, ObjectEditView):
 
     permission_required = "axians_netbox_pdu.add_pduconfig"
     model = PDUConfig
-    # queryset = PDUConfig.objects.all()
+    queryset = PDUConfig.objects.all()
     model_form = PDUConfigForm
     template_name = "axians_netbox_pdu/pduconfig_edit.html"
     default_return_url = "plugins:axians_netbox_pdu:pduconfig_list"
