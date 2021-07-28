@@ -2,12 +2,12 @@ import django_filters
 from django.db.models import Q
 
 from dcim.models import Device, DeviceType, Manufacturer
-from utilities.filters import NameSlugSearchFilterSet
 
 from .models import PDUConfig, PDUStatus
 
+from netbox.filtersets import OrganizationalModelFilterSet
 
-class PDUConfigFilter(NameSlugSearchFilterSet):
+class PDUConfigFilter(OrganizationalModelFilterSet):
     """Filter PDUConfig instances."""
 
     q = django_filters.CharFilter(method="search", label="Search",)
@@ -42,7 +42,7 @@ class PDUConfigFilter(NameSlugSearchFilterSet):
         return queryset.filter(qs_filter)
 
 
-class PDUStatusFilter(NameSlugSearchFilterSet):
+class PDUStatusFilter(OrganizationalModelFilterSet):
     """Filter PDUStatus instances."""
 
     q = django_filters.CharFilter(method="search", label="Search",)
