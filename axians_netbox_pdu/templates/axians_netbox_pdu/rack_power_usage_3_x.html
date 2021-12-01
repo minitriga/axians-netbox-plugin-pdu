@@ -1,0 +1,76 @@
+{% load humanize %}
+{% load helpers %}
+
+{% with config=settings.PLUGINS_CONFIG.axians_netbox_pdu %}
+{% if config.rack_view_pdu_devices %}
+<div class="card card-default">
+    <div class="card-header">
+        <strong>Power Usage Devices</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover attr-table">
+            <thead>
+                <tr>
+                    <th>
+                        Device
+                    </th>
+                    <th>
+                        Power Usage
+                    </th>
+                    <th>
+                        Last Updated
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pdu in pdus %}
+                <tr>
+                    <td>
+                        <a href="{{pdu.get_absolute_url}}">{{pdu.name}}</a>
+                    </td>
+                    <td>
+                        <span title="">{{pdu.pdustatus.get_power_usage}}</span>
+                    </td>
+                    <td>
+                        <span>{{ pdu.pdustatus.updated_at|naturaltime }}</span>
+                    </td>
+                </tr>
+                {%endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% if config.rack_view_usage_summary %}
+<div class="card card-default">
+    <div class="card-header">
+        <strong>Power Usage Summary</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover attr-table">
+            <tbody>
+                {% if total_power_usage_unit %}
+                <tr>
+                    <td>Total Power Usage</td>
+                    <td>{{ total_power_usage }} {{ total_power_usage_unit|title }}</td>
+                </tr>
+                {% endif %}
+                {% if total_available_power %}
+                <tr>
+                    <td>Total Power Available</td>
+                    <td>{{ total_available_power }} {{ total_power_usage_unit|title }}</td>
+                </tr>
+                {% endif %}
+                {% if total_power_usage_percentage %}
+                <tr>
+                    <td>Utilization</td>
+                    <td>{% utilization_graph total_power_usage_percentage %}</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endwith %}

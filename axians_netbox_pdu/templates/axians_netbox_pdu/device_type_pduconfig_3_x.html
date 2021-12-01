@@ -1,0 +1,29 @@
+<div class="card card-default">
+    <div class="card-header">
+        <strong>Power Usage Configuration</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover attr-table">
+            <tbody>
+                <tr>
+                    <td>Object Identifier</td>
+                    <td>{{ pduconfig.power_usage_oid }}</a></td>
+                </tr>
+                <tr>
+                    <td>Power Usage Unit</td>
+                    <td>
+                        {{ pduconfig.power_usage_unit|title }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% if perms.axians_netbox_pdu.change_pduconfig %}
+    <div class="card-footer text-end noprint">
+        <a href="{% url 'plugins:axians_netbox_pdu:pduconfig_edit' pk=pduconfig.pk %}"
+            class="btn btn-sm btn-warning"><span class="mdi mdi-pencil" aria-hidden="true"></span>
+            Edit</a>
+        <div class="clearfix"></div>
+    </div>
+    {% endif %}
+</div>
