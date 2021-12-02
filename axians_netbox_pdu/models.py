@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 from .choices import PDUUnitChoices
 
 
@@ -21,6 +21,9 @@ class PDUConfig(models.Model):
     def __str__(self):
         """String representation of an PDUConfig."""
         return f"{self.device_type}"
+
+    def get_absolute_url(self):
+        return reverse('dcim:devicetype', args=[self.device_type.id])
 
 
 class PDUStatus(models.Model):

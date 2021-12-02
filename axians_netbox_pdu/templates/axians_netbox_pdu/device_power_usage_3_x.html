@@ -1,0 +1,29 @@
+{% load humanize %}
+
+<div class="card card-default">
+    <div class="card-header">
+        <strong>Power Information</strong>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover attr-table">
+            <tbody>
+                <tr>
+                    <td>
+                        <span title="">Power Usage</span>
+                    </td>
+                    <td>
+                        <span>{{ pdustatus.get_power_usage }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Last Updated</span>
+                    </td>
+                    <td>
+                        <span>{{ pdustatus.updated_at|naturaltime }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
