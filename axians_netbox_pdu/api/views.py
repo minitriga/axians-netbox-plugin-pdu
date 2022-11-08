@@ -1,6 +1,6 @@
 from rest_framework import mixins, viewsets
 
-from axians_netbox_pdu.filters import PDUConfigFilter, PDUStatusFilter
+#from axians_netbox_pdu.filters import PDUConfigFilter, PDUStatusFilter
 from axians_netbox_pdu.models import PDUConfig, PDUStatus
 
 from .serializers import PDUConfigSerializer, PDUStatusSerializer
@@ -18,7 +18,7 @@ class PDUConfigViewSet(
     """CRUD PDUConfig instances"""
 
     queryset = PDUConfig.objects.all()
-    filterset_class = PDUConfigFilter
+    #filterset_class = PDUConfigFilter
     serializer_class = PDUConfigSerializer
 
 
@@ -33,5 +33,5 @@ class PDUStatusViewSet(
     """CRUD PDUStatus Instances"""
 
     queryset = PDUStatus.objects.all()
-    filterset_class = PDUStatusFilter
+    #filterset_class = PDUStatusFilter
     serializer_class = PDUStatusSerializer

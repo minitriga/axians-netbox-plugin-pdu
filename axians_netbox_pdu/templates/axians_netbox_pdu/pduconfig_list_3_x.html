@@ -31,7 +31,7 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="filters-form-tab" data-bs-toggle="tab" data-bs-target="#filters-form" type="button" role="tab" aria-controls="object-list" aria-selected="false">
             Filters
-            {% if filter_form %}{% badge filter_form.changed_data|length bg_class="primary" %}{% endif %}
+            {% if filter_form %}{% badge filter_form.changed_data|length bg_color="primary" %}{% endif %}
           </button>
         </li>
       {% endif %}
@@ -48,7 +48,7 @@
         {% applied_filters filter_form request.GET %}
       {% endif %}
 
-      {% include 'inc/table_controls.html' with table_modal="RecordTable_config" %}
+      {% include 'inc/table_controls_htmx.html' with table_modal="RecordTable_config" %}
 
       <form method="post" class="form form-horizontal">
         {% csrf_token %}
