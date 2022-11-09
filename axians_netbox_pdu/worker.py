@@ -27,7 +27,7 @@ def collect_power_usage_info():
                 device.device_type.pduconfig.power_usage_oid,
                 hostname=str(device.primary_ip4.address.ip),
                 community=config["snmp_read"],
-                version=2,
+                version=int(config["snmp_version"]),
             )
         except EasySNMPError as err:
             logging.error(f"Failed to get power usage status for {device.name}: {err}.")
