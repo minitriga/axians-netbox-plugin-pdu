@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import View
 
-from netbox.views.generic import BulkDeleteView, BulkImportView, ObjectEditView, ObjectListView
+from netbox.views.generic import ObjectDeleteView, BulkImportView, ObjectEditView, ObjectListView
 
 #from .filters import PDUConfigFilter
 from .forms import PDUConfigCSVForm, PDUConfigFilterForm, PDUConfigForm
@@ -52,7 +52,7 @@ class PDUConfigImportView(PermissionRequiredMixin, BulkImportView):
     default_return_url = "plugins:axians_netbox_pdu:pduconfig_list"
 
 
-class PDUConfigBulkDeleteView(PermissionRequiredMixin, BulkDeleteView):
+class PDUConfigBulkDeleteView(PermissionRequiredMixin, ObjectDeleteView):
     """View for deleting one or more PDUConfigs."""
 
     permission_required = "axians_netbox_pdu.delete_pduconfig"
