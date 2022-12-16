@@ -5,9 +5,9 @@ from dcim.models import Device, DeviceType, Manufacturer
 
 from .models import PDUConfig, PDUStatus
 
-from netbox.filtersets import OrganizationalModelFilterSet
+from netbox.filtersets import NetBoxModelFilterSet
 
-class PDUConfigFilter(OrganizationalModelFilterSet):
+class PDUConfigFilter(django_filters.FilterSet):
     """Filter PDUConfig instances."""
 
     q = django_filters.CharFilter(method="search", label="Search",)
@@ -42,7 +42,7 @@ class PDUConfigFilter(OrganizationalModelFilterSet):
         return queryset.filter(qs_filter)
 
 
-class PDUStatusFilter(OrganizationalModelFilterSet):
+class PDUStatusFilter(django_filters.FilterSet):
     """Filter PDUStatus instances."""
 
     q = django_filters.CharFilter(method="search", label="Search",)

@@ -4,7 +4,7 @@ from django.views.generic import View
 
 from netbox.views.generic import ObjectDeleteView, BulkImportView, ObjectEditView, ObjectListView
 
-#from .filters import PDUConfigFilter
+from .filters import PDUConfigFilter
 from .forms import PDUConfigCSVForm, PDUConfigFilterForm, PDUConfigForm
 from .models import PDUConfig
 from .tables import PDUConfigBulkTable, PDUConfigTable
@@ -19,7 +19,7 @@ class PDUConfigListView(PermissionRequiredMixin, ObjectListView):
 
     permission_required = "axians_netbox_pdu.view_pduconfig"
     queryset = PDUConfig.objects.all()
-    # filterset = PDUConfigFilter
+    filterset = PDUConfigFilter
     filterset_form = PDUConfigFilterForm
     table = PDUConfigTable
     if NETBOX_CURRENT_VERSION >= version.parse("3.0"):
