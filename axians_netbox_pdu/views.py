@@ -22,10 +22,6 @@ class PDUConfigListView(PermissionRequiredMixin, ObjectListView):
     filterset = PDUConfigFilter
     filterset_form = PDUConfigFilterForm
     table = PDUConfigTable
-    if NETBOX_CURRENT_VERSION >= version.parse("3.0"):
-        template_name = "axians_netbox_pdu/pduconfig_list_3_x.html"
-    else:
-        template_name = "axians_netbox_pdu/pduconfig_list.html"
 
 
 class PDUConfigCreateView(PermissionRequiredMixin, ObjectEditView):
