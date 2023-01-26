@@ -1,6 +1,6 @@
 import django_tables2 as tables
 
-from utilities.tables import BaseTable, ToggleColumn
+from netbox.tables import BaseTable, ToggleColumn
 
 from .models import PDUConfig
 

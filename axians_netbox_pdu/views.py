@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import View
 
-from netbox.views.generic import BulkDeleteView, BulkImportView, ObjectEditView, ObjectListView
+from netbox.views.generic import ObjectDeleteView, BulkImportView, ObjectEditView, ObjectListView
 
 from .filters import PDUConfigFilter
 from .forms import PDUConfigCSVForm, PDUConfigFilterForm, PDUConfigForm
@@ -22,10 +22,6 @@ class PDUConfigListView(PermissionRequiredMixin, ObjectListView):
     filterset = PDUConfigFilter
     filterset_form = PDUConfigFilterForm
     table = PDUConfigTable
-    if NETBOX_CURRENT_VERSION >= version.parse("3.0"):
-        template_name = "axians_netbox_pdu/pduconfig_list_3_x.html"
-    else:
-        template_name = "axians_netbox_pdu/pduconfig_list.html"
 
 
 class PDUConfigCreateView(PermissionRequiredMixin, ObjectEditView):
@@ -34,7 +30,7 @@ class PDUConfigCreateView(PermissionRequiredMixin, ObjectEditView):
     permission_required = "axians_netbox_pdu.add_pduconfig"
     model = PDUConfig
     queryset = PDUConfig.objects.all()
-    model_form = PDUConfigForm
+    form = PDUConfigForm
     if NETBOX_CURRENT_VERSION >= version.parse("3.0"):
         template_name = "axians_netbox_pdu/pduconfig_edit_3_x.html"
     else:
@@ -52,7 +48,7 @@ class PDUConfigImportView(PermissionRequiredMixin, BulkImportView):
     default_return_url = "plugins:axians_netbox_pdu:pduconfig_list"
 
 
-class PDUConfigBulkDeleteView(PermissionRequiredMixin, BulkDeleteView):
+class PDUConfigBulkDeleteView(PermissionRequiredMixin, ObjectDeleteView):
     """View for deleting one or more PDUConfigs."""
 
     permission_required = "axians_netbox_pdu.delete_pduconfig"
